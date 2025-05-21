@@ -13,39 +13,58 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState({
+    list: false,
+    add: false,
+    edit: false,
+    delete: false
+  });
+
   const getContacts = async () => {
     try {
+      setLoading(prev => ({ ...prev, list: true }));
       const res = await axios.get("/api/contacts");
       setContacts(res.data);
     } catch (err) {
       console.log("Error from ContactList", err);
+    } finally {
+      setLoading(prev => ({ ...prev, list: false }));
     }
   };
 
   const addContactHandler = async (contact) => {
     try {
+      setLoading(prev => ({ ...prev, add: true }));
       await axios.post("/api/contacts", contact);
-      getContacts();
+      await getContacts();
     } catch (err) {
       console.log("Error from AddContact", err);
+    } finally {
+      setLoading(prev => ({ ...prev, add: false }));
     }
   };
 
   const updateContactHandler = async (contact) => {
     try {
+      setLoading(prev => ({ ...prev, edit: true }));
       await axios.put("/api/contacts/" + contact._id, contact);
-      getContacts();
+      await getContacts();
     } catch (err) {
       console.log("Error from UpdateContactInfo", err);
+    } finally {
+      setLoading(prev => ({ ...prev, edit: false }));
     }
   };
 
   const removeContactHandler = async (contact) => {
     try {
+      setLoading(prev => ({ ...prev, delete: true }));
       await axios.delete("/api/contacts/" + contact._id, contact);
-      getContacts();
+      await getContacts();
     } catch (err) {
       console.log("Error from RemoveContact", err);
+    } finally {
+      setLoading(prev => ({ ...prev, delete: false }));
     }
   };
 
@@ -67,8 +86,21 @@ function App() {
   useEffect(() => {
     getContacts();
   }, []);
+
+  // Loading spinner component
+  const Spinner = () => (
+    <div className="spinner-overlay">
+      <div className="spinner-container">
+        <div className="loading-spinner"></div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="App-container">
+      {/* Show spinner when any operation is loading */}
+      {(loading.list || loading.add || loading.edit || loading.delete) && <Spinner />}
+
       <Router>
         <Header />
         <Routes>
@@ -80,12 +112,18 @@ function App() {
                 getContactID={removeContactHandler}
                 term={searchTerm}
                 searchKeyword={searchHandler}
+                isLoading={loading.delete}
               />
             }
           />
           <Route
             path="/add"
-            element={<AddContact addContactHandler={addContactHandler} />}
+            element={
+              <AddContact
+                addContactHandler={addContactHandler}
+                isLoading={loading.add}
+              />
+            }
           />
           <Route
             path="/edit/:id"
@@ -93,6 +131,7 @@ function App() {
               <EditContact
                 contacts={contacts}
                 updateContactHandler={updateContactHandler}
+                isLoading={loading.edit}
               />
             }
           />
