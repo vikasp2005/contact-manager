@@ -59,6 +59,9 @@ router.put("/:id", jsonParser, function (req, res) {
 // @route GET api/contacts/:id
 // @description Delete Contact by id
 // @access Public
+
+
+
 router.delete("/:id", jsonParser, function (req, res) {
   Contact.findByIdAndDelete(req.params.id, req.body)
     .then((Contact) => res.json({ mgs: "Contact entry deleted successfully" }))
