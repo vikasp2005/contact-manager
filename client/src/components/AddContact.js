@@ -44,9 +44,16 @@ class AddContact extends React.Component {
                 value={this.state.email}
                 onChange={(e) => this.setState({ email: e.target.value })}
               />
+
+
+
+
+
+
+
               <span className="focus-input2" data-placeholder="EMAIL"></span>
             </div>
-            <button className="btn">Add</button>
+            <button className="btn">Add contact</button>
           </form>
         </div>
       </div>
