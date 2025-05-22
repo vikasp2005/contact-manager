@@ -46,7 +46,7 @@ class AddContact extends React.Component {
               />
               <span className="focus-input2" data-placeholder="EMAIL"></span>
             </div>
-            <button className="btn">Add</button>
+            <button className="btn">Add contact</button>
           </form>
         </div>
       </div>
