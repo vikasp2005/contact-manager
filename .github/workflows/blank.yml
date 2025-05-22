@@ -20,17 +20,15 @@ jobs:
         with:
           node-version: "20"
 
-      # BACKEND
-      - name: Install server dependencies
-        working-directory: ./
+      # BACKEND (in root directory)
+      - name: Install backend dependencies
         run: npm install
 
       - name: Run backend tests
-        working-directory: server
         run: npm test
 
-      # FRONTEND
-      - name: Install client dependencies
+      # FRONTEND (in client directory)
+      - name: Install frontend dependencies
         working-directory: client
         run: npm install
 
@@ -38,6 +36,6 @@ jobs:
         working-directory: client
         run: npm run build
 
-      - name: Run frontend tests (if any)
+      - name: Run frontend tests
         working-directory: client
         run: npm test
