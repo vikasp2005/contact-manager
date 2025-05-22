@@ -22,7 +22,7 @@ jobs:
 
       # BACKEND
       - name: Install server dependencies
-        working-directory: server
+        working-directory: ./
         run: npm install
 
       - name: Run backend tests
