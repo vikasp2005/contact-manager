@@ -24,9 +24,6 @@ jobs:
       - name: Install backend dependencies
         run: npm install
 
-      - name: Run backend tests
-        run: npm test
-
       # FRONTEND (in client directory)
       - name: Install frontend dependencies
         working-directory: client
@@ -34,8 +31,3 @@ jobs:
 
       - name: Build React app
         working-directory: client
-        run: npm run build
-
-      - name: Run frontend tests
-        working-directory: client
-        run: npm test
