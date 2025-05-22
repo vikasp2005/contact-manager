@@ -23,7 +23,7 @@ class AddContact extends React.Component {
         </Link>
         <div className="wrap-contact2">
           <form className="contact2-form" onSubmit={this.add}>
-            <span className="contact2-form-title">Add Contact</span>
+            <span className="contact2-form-title">Add new Contact</span>
             <div className="wrap-input2">
               <input
                 className="input2"
